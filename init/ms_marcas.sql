@@ -1,3 +1,7 @@
+-- Create second_db database if it doesn't exist
+CREATE DATABASE IF NOT EXISTS `ms_marcas`;
+-- Grant all privilidges on ms_marcas to root
+GRANT ALL PRIVILEGES ON `ms_marcas`.* TO `root`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
