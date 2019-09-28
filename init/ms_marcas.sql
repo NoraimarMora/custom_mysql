@@ -1,4 +1,4 @@
--- Create second_db database if it doesn't exist
+-- Create ms_marcas database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS `ms_marcas`;
 -- Grant all privilidges on ms_marcas to root
 GRANT ALL PRIVILEGES ON `ms_marcas`.* TO `root`;
