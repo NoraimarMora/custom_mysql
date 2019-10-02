@@ -19,7 +19,7 @@ CREATE TABLE `ms_catalogo`.`adonis_schema` (
   `migration_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO `adonis_schema` (`id`, `name`, `batch`, `migration_time`) VALUES
+INSERT INTO `ms_catalogo`.`adonis_schema` (`id`, `name`, `batch`, `migration_time`) VALUES
 (1, '1560480112873_categorias_schema', 1, '2019-09-28 19:29:25'),
 (2, '1560480205281_caracteristicas_schema', 2, '2019-09-28 19:30:07'),
 (3, '1560480258902_valores_caracteristica_schema', 2, '2019-09-28 19:30:08'),
@@ -97,33 +97,33 @@ CREATE TABLE `ms_catalogo`.`valores_caracteristicas` (
 -- Índices para tablas volcadas
 --
 
-ALTER TABLE `adonis_schema`
+ALTER TABLE `ms_catalogo`.`adonis_schema`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `caracteristicas`
+ALTER TABLE `ms_catalogo`.`caracteristicas`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `categorias`
+ALTER TABLE `ms_catalogo`.`categorias`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `categoria_producto`
+ALTER TABLE `ms_catalogo`.`categoria_producto`
   ADD PRIMARY KEY (`id`),
   ADD KEY `categoria_producto_categoria_id_foreign` (`categoria_id`),
   ADD KEY `categoria_producto_producto_id_foreign` (`producto_id`);
 
-ALTER TABLE `productos`
+ALTER TABLE `ms_catalogo`.`productos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `productos_tienda_id_foreign` (`tienda_id`);
 
-ALTER TABLE `producto_valor_caracteristica`
+ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   ADD PRIMARY KEY (`id`),
   ADD KEY `producto_valor_caracteristica_valor_caracteristica_id_foreign` (`valor_caracteristica_id`),
   ADD KEY `producto_valor_caracteristica_producto_id_foreign` (`producto_id`);
 
-ALTER TABLE `tiendas`
+ALTER TABLE `ms_catalogo`.`tiendas`
   ADD PRIMARY KEY (`id`);
 
-ALTER TABLE `valores_caracteristicas`
+ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
   ADD PRIMARY KEY (`id`),
   ADD KEY `valores_caracteristicas_caracteristica_id_foreign` (`caracteristica_id`);
 
@@ -131,42 +131,42 @@ ALTER TABLE `valores_caracteristicas`
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
-ALTER TABLE `adonis_schema`
+ALTER TABLE `ms_catalogo`.`adonis_schema`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
-ALTER TABLE `caracteristicas`
+ALTER TABLE `ms_catalogo`.`caracteristicas`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `categorias`
+ALTER TABLE `ms_catalogo`.`categorias`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `categoria_producto`
+ALTER TABLE `ms_catalogo`.`categoria_producto`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `productos`
+ALTER TABLE `ms_catalogo`.`productos`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `producto_valor_caracteristica`
+ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
-ALTER TABLE `valores_caracteristicas`
+ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
 --
 
-ALTER TABLE `categoria_producto`
+ALTER TABLE `ms_catalogo`.`categoria_producto`
   ADD CONSTRAINT `categoria_producto_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `categoria_producto_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `productos`
+ALTER TABLE `ms_catalogo`.`productos`
   ADD CONSTRAINT `productos_tienda_id_foreign` FOREIGN KEY (`tienda_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `producto_valor_caracteristica`
+ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   ADD CONSTRAINT `producto_valor_caracteristica_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `producto_valor_caracteristica_valor_caracteristica_id_foreign` FOREIGN KEY (`valor_caracteristica_id`) REFERENCES `valores_caracteristicas` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `valores_caracteristicas`
+ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
   ADD CONSTRAINT `valores_caracteristicas_caracteristica_id_foreign` FOREIGN KEY (`caracteristica_id`) REFERENCES `caracteristicas` (`id`) ON DELETE CASCADE;
 COMMIT;
