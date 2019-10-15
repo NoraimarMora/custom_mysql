@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2019 a las 06:33:17
+-- Tiempo de generación: 15-10-2019 a las 03:43:59
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -45,13 +45,14 @@ CREATE TABLE `ms_catalogo`.`adonis_schema` (
 --
 
 INSERT INTO `ms_catalogo`.`adonis_schema` (`id`, `name`, `batch`, `migration_time`) VALUES
-(1, '1560480112873_categorias_schema', 1, '2019-10-14 04:30:14'),
-(2, '1560480205281_caracteristicas_schema', 1, '2019-10-14 04:30:14'),
-(3, '1560480258902_valores_caracteristica_schema', 1, '2019-10-14 04:30:15'),
-(4, '1560480268043_tiendas_schema', 1, '2019-10-14 04:30:17'),
-(5, '1560480269217_productos_schema', 1, '2019-10-14 04:30:18'),
-(6, '1560717581982_categoria_producto_schema', 1, '2019-10-14 04:30:21'),
-(7, '1560717902378_producto_valor_caracteristica_schema', 1, '2019-10-14 04:30:24');
+(1, '1560480112873_categorias_schema', 1, '2019-10-15 01:36:31'),
+(2, '1560480205281_caracteristicas_schema', 1, '2019-10-15 01:36:31'),
+(3, '1560480258902_valores_caracteristica_schema', 1, '2019-10-15 01:36:33'),
+(4, '1560480268039_marcas_schema', 1, '2019-10-15 01:36:35'),
+(5, '1560480268043_tiendas_schema', 1, '2019-10-15 01:36:40'),
+(6, '1560480269217_productos_schema', 1, '2019-10-15 01:36:42'),
+(7, '1560717581982_categoria_producto_schema', 1, '2019-10-15 01:36:46'),
+(8, '1560717902378_producto_valor_caracteristica_schema', 1, '2019-10-15 01:36:51');
 
 -- --------------------------------------------------------
 
@@ -92,8 +93,21 @@ CREATE TABLE `ms_catalogo`.`categorias` (
 
 CREATE TABLE `ms_catalogo`.`categoria_producto` (
   `id` int(10) UNSIGNED NOT NULL,
-  `category_id` int(10) UNSIGNED DEFAULT NULL,
-  `product_id` int(10) UNSIGNED DEFAULT NULL,
+  `categoria_id` int(10) UNSIGNED DEFAULT NULL,
+  `producto_id` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `marcas`
+--
+
+CREATE TABLE `ms_catalogo`.`marcas` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -112,7 +126,7 @@ CREATE TABLE `ms_catalogo`.`productos` (
   `description` text,
   `imagen_url` varchar(255) DEFAULT NULL,
   `customizable` tinyint(1) DEFAULT NULL,
-  `store_id` int(10) UNSIGNED DEFAULT NULL,
+  `tienda_id` int(10) UNSIGNED DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -126,8 +140,8 @@ CREATE TABLE `ms_catalogo`.`productos` (
 
 CREATE TABLE `ms_catalogo`.`producto_valor_caracteristica` (
   `id` int(10) UNSIGNED NOT NULL,
-  `feature_value_id` int(10) UNSIGNED DEFAULT NULL,
-  `product_id` int(10) UNSIGNED DEFAULT NULL,
+  `valor_caracteristica_id` int(10) UNSIGNED DEFAULT NULL,
+  `producto_id` int(10) UNSIGNED DEFAULT NULL,
   `impact` double DEFAULT '0',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
@@ -142,6 +156,7 @@ CREATE TABLE `ms_catalogo`.`producto_valor_caracteristica` (
 CREATE TABLE `ms_catalogo`.`tiendas` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
+  `marca_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -155,7 +170,7 @@ CREATE TABLE `ms_catalogo`.`tiendas` (
 CREATE TABLE `ms_catalogo`.`valores_caracteristicas` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `feature_id` int(10) UNSIGNED DEFAULT NULL,
+  `caracteristica_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -187,36 +202,43 @@ ALTER TABLE `ms_catalogo`.`categorias`
 --
 ALTER TABLE `ms_catalogo`.`categoria_producto`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `categoria_producto_category_id_foreign` (`category_id`),
-  ADD KEY `categoria_producto_product_id_foreign` (`product_id`);
+  ADD KEY `categoria_producto_categoria_id_foreign` (`categoria_id`),
+  ADD KEY `categoria_producto_producto_id_foreign` (`producto_id`);
+
+--
+-- Indices de la tabla `marcas`
+--
+ALTER TABLE `ms_catalogo`.`marcas`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `productos`
 --
 ALTER TABLE `ms_catalogo`.`productos`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `productos_store_id_foreign` (`store_id`);
+  ADD KEY `productos_tienda_id_foreign` (`tienda_id`);
 
 --
 -- Indices de la tabla `producto_valor_caracteristica`
 --
 ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `producto_valor_caracteristica_feature_value_id_foreign` (`feature_value_id`),
-  ADD KEY `producto_valor_caracteristica_product_id_foreign` (`product_id`);
+  ADD KEY `producto_valor_caracteristica_valor_caracteristica_id_foreign` (`valor_caracteristica_id`),
+  ADD KEY `producto_valor_caracteristica_producto_id_foreign` (`producto_id`);
 
 --
 -- Indices de la tabla `tiendas`
 --
 ALTER TABLE `ms_catalogo`.`tiendas`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tiendas_marca_id_foreign` (`marca_id`);
 
 --
 -- Indices de la tabla `valores_caracteristicas`
 --
 ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `valores_caracteristicas_feature_id_foreign` (`feature_id`);
+  ADD KEY `valores_caracteristicas_caracteristica_id_foreign` (`caracteristica_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -226,7 +248,7 @@ ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
 -- AUTO_INCREMENT de la tabla `adonis_schema`
 --
 ALTER TABLE `ms_catalogo`.`adonis_schema`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `caracteristicas`
@@ -272,27 +294,33 @@ ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
 -- Filtros para la tabla `categoria_producto`
 --
 ALTER TABLE `ms_catalogo`.`categoria_producto`
-  ADD CONSTRAINT `categoria_producto_category_id_foreign` FOREIGN KEY (`category_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `categoria_producto_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `categoria_producto_categoria_id_foreign` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `categoria_producto_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `productos`
 --
 ALTER TABLE `ms_catalogo`.`productos`
-  ADD CONSTRAINT `productos_store_id_foreign` FOREIGN KEY (`store_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `productos_tienda_id_foreign` FOREIGN KEY (`tienda_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `producto_valor_caracteristica`
 --
 ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
-  ADD CONSTRAINT `producto_valor_caracteristica_feature_value_id_foreign` FOREIGN KEY (`feature_value_id`) REFERENCES `valores_caracteristicas` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `producto_valor_caracteristica_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `producto_valor_caracteristica_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `producto_valor_caracteristica_valor_caracteristica_id_foreign` FOREIGN KEY (`valor_caracteristica_id`) REFERENCES `valores_caracteristicas` (`id`) ON DELETE CASCADE;
+
+--
+-- Filtros para la tabla `tiendas`
+--
+ALTER TABLE `ms_catalogo`.`tiendas`
+  ADD CONSTRAINT `tiendas_marca_id_foreign` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `valores_caracteristicas`
 --
 ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
-  ADD CONSTRAINT `valores_caracteristicas_feature_id_foreign` FOREIGN KEY (`feature_id`) REFERENCES `caracteristicas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `valores_caracteristicas_caracteristica_id_foreign` FOREIGN KEY (`caracteristica_id`) REFERENCES `caracteristicas` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

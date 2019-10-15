@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-10-2019 a las 06:47:15
+-- Tiempo de generación: 15-10-2019 a las 01:04:00
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.10
 
@@ -40,7 +40,9 @@ CREATE TABLE `ms_marcas`.`cuentas_bancarias` (
   `dni` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `store_id` int(10) UNSIGNED NOT NULL
+  `tienda_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -54,7 +56,9 @@ CREATE TABLE `ms_marcas`.`horarios` (
   `day` enum('1','2','3','4','5','6','7') COLLATE utf8mb4_unicode_ci NOT NULL,
   `open` int(11) NOT NULL,
   `close` int(11) NOT NULL,
-  `store_id` int(10) UNSIGNED NOT NULL
+  `tienda_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -69,7 +73,9 @@ CREATE TABLE `ms_marcas`.`marcas` (
   `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `logo_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `banner_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `active` tinyint(1) NOT NULL DEFAULT '1'
+  `active` tinyint(1) NOT NULL DEFAULT '1',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -106,7 +112,9 @@ CREATE TABLE `ms_marcas`.`tiendas` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
-  `brand_id` int(10) UNSIGNED NOT NULL
+  `marca_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -118,14 +126,14 @@ CREATE TABLE `ms_marcas`.`tiendas` (
 --
 ALTER TABLE `ms_marcas`.`cuentas_bancarias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `cuentas_bancarias_store_id_foreign` (`store_id`);
+  ADD KEY `cuentas_bancarias_tienda_id_foreign` (`tienda_id`);
 
 --
 -- Indices de la tabla `horarios`
 --
 ALTER TABLE `ms_marcas`.`horarios`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `horarios_store_id_foreign` (`store_id`);
+  ADD KEY `horarios_tienda_id_foreign` (`tienda_id`);
 
 --
 -- Indices de la tabla `marcas`
@@ -144,7 +152,7 @@ ALTER TABLE `ms_marcas`.`migrations`
 --
 ALTER TABLE `ms_marcas`.`tiendas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `tiendas_brand_id_foreign` (`brand_id`);
+  ADD KEY `tiendas_marca_id_foreign` (`marca_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -188,19 +196,19 @@ ALTER TABLE `ms_marcas`.`tiendas`
 -- Filtros para la tabla `cuentas_bancarias`
 --
 ALTER TABLE `ms_marcas`.`cuentas_bancarias`
-  ADD CONSTRAINT `cuentas_bancarias_store_id_foreign` FOREIGN KEY (`store_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `cuentas_bancarias_tienda_id_foreign` FOREIGN KEY (`tienda_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `horarios`
 --
 ALTER TABLE `ms_marcas`.`horarios`
-  ADD CONSTRAINT `horarios_store_id_foreign` FOREIGN KEY (`store_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `horarios_tienda_id_foreign` FOREIGN KEY (`tienda_id`) REFERENCES `tiendas` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tiendas`
 --
 ALTER TABLE `ms_marcas`.`tiendas`
-  ADD CONSTRAINT `tiendas_brand_id_foreign` FOREIGN KEY (`brand_id`) REFERENCES `marcas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `tiendas_marca_id_foreign` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
