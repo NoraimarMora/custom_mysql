@@ -47,7 +47,7 @@ CREATE TABLE `ms_catalogo`.`adonis_schema` (
 INSERT INTO `ms_catalogo`.`adonis_schema` (`id`, `name`, `batch`, `migration_time`) VALUES
 (1, '1560480112873_categorias_schema', 1, '2019-10-15 01:36:31'),
 (2, '1560480205281_caracteristicas_schema', 1, '2019-10-15 01:36:31'),
-(3, '1560480258902_valores_caracteristica_schema', 1, '2019-10-15 01:36:33'),
+(3, '1560480258902_valor_caracteristicas_schema', 1, '2019-10-15 01:36:33'),
 (4, '1560480268039_marcas_schema', 1, '2019-10-15 01:36:35'),
 (5, '1560480268043_tiendas_schema', 1, '2019-10-15 01:36:40'),
 (6, '1560480269217_productos_schema', 1, '2019-10-15 01:36:42'),
@@ -164,10 +164,10 @@ CREATE TABLE `ms_catalogo`.`tiendas` (
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `valores_caracteristicas`
+-- Estructura de tabla para la tabla `valor_caracteristicas`
 --
 
-CREATE TABLE `ms_catalogo`.`valores_caracteristicas` (
+CREATE TABLE `ms_catalogo`.`valor_caracteristicas` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) DEFAULT NULL,
   `caracteristica_id` int(10) UNSIGNED DEFAULT NULL,
@@ -234,11 +234,11 @@ ALTER TABLE `ms_catalogo`.`tiendas`
   ADD KEY `tiendas_marca_id_foreign` (`marca_id`);
 
 --
--- Indices de la tabla `valores_caracteristicas`
+-- Indices de la tabla `valor_caracteristicas`
 --
-ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
+ALTER TABLE `ms_catalogo`.`valor_caracteristicas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `valores_caracteristicas_caracteristica_id_foreign` (`caracteristica_id`);
+  ADD KEY `valor_caracteristicas_caracteristica_id_foreign` (`caracteristica_id`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -281,9 +281,9 @@ ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `valores_caracteristicas`
+-- AUTO_INCREMENT de la tabla `valor_caracteristicas`
 --
-ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
+ALTER TABLE `ms_catalogo`.`valor_caracteristicas`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
@@ -308,7 +308,7 @@ ALTER TABLE `ms_catalogo`.`productos`
 --
 ALTER TABLE `ms_catalogo`.`producto_valor_caracteristica`
   ADD CONSTRAINT `producto_valor_caracteristica_producto_id_foreign` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `producto_valor_caracteristica_valor_caracteristica_id_foreign` FOREIGN KEY (`valor_caracteristica_id`) REFERENCES `valores_caracteristicas` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `producto_valor_caracteristica_valor_caracteristica_id_foreign` FOREIGN KEY (`valor_caracteristica_id`) REFERENCES `valor_caracteristicas` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `tiendas`
@@ -317,10 +317,10 @@ ALTER TABLE `ms_catalogo`.`tiendas`
   ADD CONSTRAINT `tiendas_marca_id_foreign` FOREIGN KEY (`marca_id`) REFERENCES `marcas` (`id`) ON DELETE CASCADE;
 
 --
--- Filtros para la tabla `valores_caracteristicas`
+-- Filtros para la tabla `valor_caracteristicas`
 --
-ALTER TABLE `ms_catalogo`.`valores_caracteristicas`
-  ADD CONSTRAINT `valores_caracteristicas_caracteristica_id_foreign` FOREIGN KEY (`caracteristica_id`) REFERENCES `caracteristicas` (`id`) ON DELETE CASCADE;
+ALTER TABLE `ms_catalogo`.`valor_caracteristicas`
+  ADD CONSTRAINT `valor_caracteristicas_caracteristica_id_foreign` FOREIGN KEY (`caracteristica_id`) REFERENCES `caracteristicas` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

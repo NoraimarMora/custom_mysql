@@ -40,6 +40,7 @@ CREATE TABLE `ms_marcas`.`cuentas_bancarias` (
   `dni` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_number` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `account_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `bank` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tienda_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -109,8 +110,8 @@ INSERT INTO `ms_marcas`.`migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `ms_marcas`.`tiendas` (
   `id` int(10) UNSIGNED NOT NULL,
   `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `latitude` double NOT NULL,
-  `longitude` double NOT NULL,
+  `latitude` varchar(255) NOT NULL,
+  `longitude` varchar(255) NOT NULL,
   `active` tinyint(1) NOT NULL DEFAULT '1',
   `marca_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
