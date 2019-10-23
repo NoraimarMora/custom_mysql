@@ -10,8 +10,8 @@
 -- Create ms_catalogo database if it doesn't exist
 CREATE DATABASE IF NOT EXISTS `ms_catalogo`;
 -- Grant all privilidges on ms_catalogo to root
-ALTER USER 'root' IDENTIFIED BY 'tesiscriminal01';
-GRANT ALL PRIVILEGES ON `ms_catalogo`.* TO `root`@`%`;
+ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'tesiscriminal01';
+GRANT ALL PRIVILEGES ON `ms_catalogo`.* TO `root`@`localhost`;
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
